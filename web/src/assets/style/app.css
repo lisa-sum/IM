@@ -1,0 +1,45 @@
+
+input,
+button {
+	outline          : none;
+	background-color : transparent;
+	color            : #50e3c2;
+	border           : none;
+
+}
+
+
+@media (prefers-color-scheme : dark) {
+	body {
+		background : #1b1b1b;
+		color      : #993333;
+	}
+
+	input {
+		border-bottom : 1px solid #49cc90;
+	}
+
+	button {
+		border        : 1px solid #50e3c2;
+		border-radius : 5px;
+		padding       : 5px;
+	}
+}
+
+@media (prefers-color-scheme : light) {
+	body {
+		background : rgba(255,255,255,.8);
+		color      : #19a974;
+	}
+
+	input {
+		color: #ff6300;
+		border-bottom : 1px solid #19a974;
+	}
+
+	button {
+		border        : 1px solid #50e3c2;
+		border-radius : 5px;
+		padding       : 5px;
+	}
+}

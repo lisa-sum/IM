@@ -1,0 +1,9 @@
+mongodb:
+  username: root
+  password: msdnmm
+  db: im
+  uri: mongodb://192.168.0.152:27017
+
+redis:
+  - password: msdnmm
+  - uri: 192.168.0.158:6379
