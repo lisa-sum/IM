@@ -1,22 +1,22 @@
 import { useState } from 'react'
 
 export default function Send () {
-	const [user_identity, setUser_identity] = useState<string>('visitant')
-	const [room_identity, setRoom_identity] = useState<string>('1')
+	const [userIdentity, setuserIdentity] = useState<string>('student')
+	const [roomIdentity, setroomIdentity] = useState<string>('1')
 	const [message, setMessage] = useState<string>('')
 	const [messageList, setMessageList] = useState<MessageBasic[]>([
 		{
-			user_identity: 'visitant',
-			room_identity: '1',
-			data: 'visitant message',
-			created_at: new Date().toLocaleString(),
-			updated_at: new Date().toLocaleString(),
+			userIdentity: 'student',
+			roomIdentity: '1',
+			data: 'student message',
+			createdAt: new Date().toLocaleString(),
+			updatedAt: new Date().toLocaleString(),
 		},
 	])
 	const ms = () => {
 		return JSON.stringify({
-			'user_identity': user_identity,
-			'room_identity': room_identity,
+			'userIdentity': userIdentity,
+			'roomIdentity': roomIdentity,
 			'message': message,
 			'create_at': Math.round(new Date().getTime() / 1000),
 			'update_at': Math.round(new Date().getTime() / 1000),
@@ -29,31 +29,31 @@ export default function Send () {
 		}
 		ws.onmessage = (event) => {
 			const messageData = {
-				user_identity: user_identity,
-				room_identity: room_identity,
+				userIdentity: userIdentity,
+				roomIdentity: roomIdentity,
 				data: event.data,
-				created_at: new Date().toLocaleString(),
-				updated_at: new Date().toLocaleString(),
+				createdAt: new Date().toLocaleString(),
+				updatedAt: new Date().toLocaleString(),
 			}
 			setMessageList([...messageList, messageData])
 		}
 	}
 	return (
 		<section>
-			<label htmlFor='user_identity'>your nickname:
+			<label htmlFor='userIdentity'>your nickname:
 				<input
 					type='text'
-					id='user_identity'
-					value={ user_identity }
-					onChange={ (event) => setUser_identity(event.target.value) }
+					id='userIdentity'
+					value={ userIdentity }
+					onChange={ (event) => setuserIdentity(event.target.value) }
 				/>
 			</label>
-			<label htmlFor='room_identity'>your room_identity:
+			<label htmlFor='roomIdentity'>your roomIdentity:
 				<input
 					type='number'
-					id='room_identity'
-					value={ room_identity }
-					onChange={ (event) => setRoom_identity(event.target.value) }
+					id='roomIdentity'
+					value={ roomIdentity }
+					onChange={ (event) => setroomIdentity(event.target.value) }
 				/>
 			</label>
 			<label htmlFor='message'>message:
@@ -70,11 +70,11 @@ export default function Send () {
 				{
 					messageList && messageList.map((item, index) => {
 						return <li key={ index }>
-							<span>用户ID:{ item.user_identity }</span>
-							<p>房间ID:{ item.room_identity }</p>
+							<span>用户ID:{ item.userIdentity }</span>
+							<p>房间ID:{ item.roomIdentity }</p>
 							<p>消息:{ item.data }</p>
-							<p>创建时间:{ item.created_at }</p>
-							<p>更新时间:{ item.updated_at }</p>
+							<p>创建时间:{ item.createdAt }</p>
+							<p>更新时间:{ item.updatedAt }</p>
 						</li>
 					})
 				}

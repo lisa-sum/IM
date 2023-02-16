@@ -2,7 +2,6 @@ package http
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -12,11 +11,6 @@ import (
 	"net/http"
 )
 
-type DatabaseBasic struct {
-	Account  string `bson:"account" json:"account"`
-	Password string `bson:"password"`
-}
-
 func Login(c *gin.Context) {
 	account := c.PostForm("account")
 	password := c.PostForm("password")
@@ -24,13 +18,11 @@ func Login(c *gin.Context) {
 	log.Println("password", password)
 
 	var user schema.UserBasic
-	fmt.Println(user.Account)
-	var dbBasic DatabaseBasic
 
 	collection := db.Mongo.Database("im").Collection("user_basic")
 	if account != "" || password != "" {
 		filter := bson.D{{"account", account}}
-		err := collection.FindOne(context.TODO(), filter).Decode(&dbBasic)
+		err := collection.FindOne(context.TODO(), filter).Decode(&user)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
 				c.AbortWithStatusJSON(http.StatusOK, gin.H{
@@ -43,7 +35,7 @@ func Login(c *gin.Context) {
 			log.Println(err)
 			return
 		}
-	} else if account != dbBasic.Password && password != dbBasic.Password {
+	} else if account != user.Password && password != user.Password {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{
 			"body":    "账号密码错误",
 			"message": "账号密码错误",
@@ -51,8 +43,9 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	log.Println("user:", user)
 	c.JSON(http.StatusOK, gin.H{
-		"body":    "OK",
+		"body":    user,
 		"message": "登陆成功",
 		"code":    http.StatusOK,
 	})

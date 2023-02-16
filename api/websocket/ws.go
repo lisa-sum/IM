@@ -9,7 +9,6 @@ import (
 	"im/schema"
 	"log"
 	"net/http"
-	"time"
 )
 
 type MessageBasic2 struct {
@@ -29,7 +28,6 @@ var upgrade = websocket.Upgrader{
 var ws = make(map[string]*websocket.Conn)
 
 func Ws(c *gin.Context) {
-	account := c.GetHeader("account") // 获取用户id
 	// 升级为WS协议 s
 	conn, err := upgrade.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -40,10 +38,6 @@ func Ws(c *gin.Context) {
 		return
 	}
 	// 升级为WS协议 e
-
-	fmt.Println("account:", account)
-
-	ws[account] = conn // 根据连接绑定用户id
 	for {
 		// 创建消息JSON结构体, 保存消息与额外的信息
 		message := new(schema.MessageBasic)
@@ -63,8 +57,8 @@ func Ws(c *gin.Context) {
 			UserIdentity: message.UserIdentity,
 			RoomIdentity: message.RoomIdentity,
 			Data:         message.Data,
-			CreatedAt:    time.Now().Unix(),
-			UpdatedAt:    time.Now().Unix(),
+			CreatedAt:    message.CreatedAt,
+			UpdatedAt:    message.UpdatedAt,
 		}
 		jsonMessage, err := json.Marshal(&savaMessage)
 		if err != nil {
@@ -75,7 +69,8 @@ func Ws(c *gin.Context) {
 			log.Println("存储消息失败:" + err.Error())
 		}
 		log.Println("result:", result)
-
+		ws[savaMessage.UserIdentity] = conn // 根据连接绑定用户id
+		log.Println("savaMessage.UserIdentity:", savaMessage.UserIdentity)
 		for _, cc := range ws {
 			// WriteMessage
 			// 1 消息类型: websocket.TextMessage文本
