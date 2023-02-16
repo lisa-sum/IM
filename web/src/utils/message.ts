@@ -30,11 +30,9 @@ const UpdatedMessage = (
 export const messageBasic = (
 	msg: MessageBasic,
 ): string => {
-	console.log("msg:",msg)
 	const { userIdentity, roomIdentity, data, createdAt, updatedAt } = msg
 	if (createdAt){
 		return JSON.stringify(notUpdatedMessage(userIdentity, roomIdentity, data, createdAt as number))
 	}
-	console.log("msg2:",JSON.stringify(UpdatedMessage(userIdentity, roomIdentity, data)))
 	return JSON.stringify(UpdatedMessage(userIdentity, roomIdentity, data))
 }

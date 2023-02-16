@@ -1,8 +1,8 @@
-form{
-	width : 60vw;
-	height : 60vh;
-	display : flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-direction: column;
+form {
+	display         : flex;
+	align-items     : center;
+	flex-direction  : column;
+	justify-content : space-between;
+	width           : 60vw;
+	height          : 60vh;
 }

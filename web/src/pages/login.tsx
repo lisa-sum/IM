@@ -25,7 +25,7 @@ export default function Login () {
 		})
 		.then(res => {
 			dispatch(updateUserProfile(res.body))
-			navigate("/chat")
+			navigate('/chat')
 		})
 		.catch(err => {
 			console.error(err)

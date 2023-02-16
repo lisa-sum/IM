@@ -18,8 +18,8 @@ function App () {
 			userIdentity: 'string', // 用户id 一对一
 			roomIdentity: 'string', // 群聊/房间id 一对多
 			data: 'string', // 消息数据
-			createdAt:  new Date().getTime(), // 创建时间
-			updatedAt:  new Date().getTime(), // 更新时间
+			createdAt: new Date().getTime(), // 创建时间
+			updatedAt: new Date().getTime(), // 更新时间
 		},
 	])
 	useEffect(() => {
@@ -28,7 +28,7 @@ function App () {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		})
-		.then(async (res) => {
+		.then(async(res) => {
 			const result = await res.json()
 			// 判断服务器返回的状态码, ok即200
 			if (res.ok){

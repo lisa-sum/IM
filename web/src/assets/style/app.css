@@ -1,21 +1,21 @@
 input,
 button {
-	outline          : none;
-	background-color : transparent;
 	color            : #50e3c2;
 	border           : none;
+	outline          : none;
+	background-color : transparent;
 
 }
 
-*{
-	margin : 0;
+* {
+	margin  : 0;
 	padding : 0;
 }
 
 @media (prefers-color-scheme : dark) {
 	body {
-		background : #1b1b1b;
 		color      : #993333;
+		background : #1b1b1b;
 	}
 
 	input {
@@ -23,26 +23,26 @@ button {
 	}
 
 	button {
+		padding       : 5px;
 		border        : 1px solid #50e3c2;
 		border-radius : 5px;
-		padding       : 5px;
 	}
 }
 
 @media (prefers-color-scheme : light) {
 	body {
-		background : rgba(255,255,255,.8);
 		color      : #19a974;
+		background : rgba(255, 255, 255, .8);
 	}
 
 	input {
-		color: #ff6300;
+		color         : #ff6300;
 		border-bottom : 1px solid #19a974;
 	}
 
 	button {
+		padding       : 5px;
 		border        : 1px solid #50e3c2;
 		border-radius : 5px;
-		padding       : 5px;
 	}
 }

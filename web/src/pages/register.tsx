@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import '../assets/style/register.css'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Register () {
 	const [account, setAccount] = useState<string>('sun')

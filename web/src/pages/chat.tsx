@@ -36,7 +36,6 @@ export default function Chat () {
 			<Box
 				sx={ {
 					width: '1440px',
-					height: '80vh',
 					display: 'grid',
 					bgcolor: '#ccc',
 					gridTemplateRows: '60px 480px 200px',

@@ -1,19 +1,20 @@
-import { Box, Input, InputLabel, List, ListItem, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Avatar, Box, Input, InputLabel, List, ListItem, Typography } from '@mui/material'
+import { useState } from 'react'
 import InputAssist from '@/components/inputAssist'
 import SendMessage from '@/components/SendMessage'
 import { useAppSelector } from '@/utils/hooks/index'
 import { RootState } from '@/store/index'
 
 export default function Room () {
+	const messageList = useAppSelector((state: RootState) => state.message.value.messageList)
 	const [chatBarList, setChatBarList] = useState<{ text: string }[]>([
 		{ text: '聊天' },
 		{ text: '简介' },
 	])
+
+	console.log('messageList', messageList)
 	const { roomNumber } = useAppSelector((state: RootState) => state.room.value)
-	console.log("roomNumber",roomNumber)
-	const { account, nickname } = useAppSelector((state: RootState) => state.profile.value)
-	console.log("account",account)
+	const { account, nickname, avatar } = useAppSelector((state: RootState) => state.profile.value)
 	const [inputMsg, setInputMsg] = useState<string>('')
 	const [msg, setMsg] = useState<MessageBasic>({
 		userIdentity: '',
@@ -73,6 +74,67 @@ export default function Room () {
 					}
 				</List>
 
+				<List
+					sx={ {
+						overflowY: 'auto',
+						minHeight: '410px',
+						mt: '0 40px',
+					} }
+				>
+					{
+						messageList.map((message: MessageBasic, index: number) => (
+							<ListItem
+								key={ index }
+								sx={ {
+									width: 'auto',
+									height: '85px',
+									mb: '40px',
+									position: 'relative',
+								} }
+							>
+								<Typography
+									sx={ {
+										position: 'absolute',
+										left: '85px',
+										top: '10px',
+										color: '#ccc',
+										fontSize: 20,
+									} }
+								>{ message.userIdentity }</Typography>
+								<Avatar
+									src={ avatar }
+									alt={ message.userIdentity }
+									sx={ {
+										position: 'absolute',
+										left: '20px',
+										top: '20px',
+										width: '50px',
+										height: '50px',
+										borderRadius: '50%',
+									} }
+								/>
+								<Box
+									sx={ {
+										position: 'absolute',
+										top: '40px',
+										left: '85px',
+										bgcolor: '#e5e5e5',
+										borderRadius: '12px',
+									} }
+								>
+									<Typography
+										sx={ {
+											m: '15px 15px',
+											color: '#000',
+											fontSize: 18,
+										} }
+									>{ message.data }</Typography>
+								</Box>
+							</ListItem>
+						))
+					}
+
+				</List>
 
 			</Box>
 			<Box
