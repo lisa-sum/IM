@@ -1,0 +1,70 @@
+### 注册
+
+PUT {{url}}/register
+Content-Type: multipart/form-data; boundary=boundary
+
+#--boundary
+#Content-Disposition: form-data; avatar="avatar"; filename="avatar.jpg"
+
+{
+ "account" : "student1",
+ "password":"123456",
+ "createdAt": 1676548940678,
+ "updatedAt": 1676548940678,
+ "email":"test@example.com",
+ "nickname":"st",
+ "gender":"female"
+}
+
+// 发送文件
+#< ../example/images/avatar.svg
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### 登录
+POST {{url}}/login
+Accept: application/json
+
+// 账号1
+{ "account" : "student", "password":"123456" }
+
+# 账号2
+# { "account" : "teacher", "password":"123456" }
+
+# 账号3
+# { "account" : "admin", "password":"123456" }
+
+### 获取student的用户历史消息
+GET {{url}}/historyMessage?account=student
+
+
+### 客户端发送WebSocket消息
+WEBSOCKET ws://{{url}}/chat
+Content-Type: application/json
+
+===
+{
+  "user_identity": "student",
+  "room_identity": "1",
+  "data": "hello teacher",
+  "created_at": 1676548940678,
+  "updated_at": 1676548940678
+}
+=== wait-for-server
+=== wait-for-server
+{
+  "user_identity": "student",
+  "room_identity": "1",
+  "data": "hello teacher",
+  "created_at": 1676548940678,
+  "updated_at": 1676548940678
+}
+===
+{
+  "message": "And this message together",
+  "repeat": 1
+}

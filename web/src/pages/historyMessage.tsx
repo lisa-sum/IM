@@ -1,24 +1,56 @@
-const getHistoryMessage = () => {
+import { useState } from 'react'
 
+const getHistoryMessage = () => {
+// 获取消息列表
+	fetch('http://127.0.0.1:4000/historyMessage', {
+		method: 'GET',
+	})
+	.then(async(res) => {
+		const result = await res.json()
+		// 判断服务器返回的状态码, ok即200
+		if (result.code === 200){
+			return result
+		}
+		throw new Error('请求失败')
+	})
+	.then((res) => {
+		console.log(JSON.parse(res.body))
+//			setMessageList(JSON.parse(res.body))
+	})
+	// 异常处理
+	.catch(err => {
+		window.alert(err)
+		console.error(err)
+	})
 }
 
-export default function HistoryMessage ({ historyMessage }: { historyMessage: MessageBasic[] }) {
+export default function HistoryMessage () {
+	const [historyMessage, setHistoryMessage] = useState<MessageBasic[]>([
+		{
+			userIdentity: '用户id', // 用户id 一对一
+			roomIdentity: '群聊/房间id', // 群聊/房间id 一对多
+			data: '消息数据', // 消息数据
+			createdAt: new Date().toLocaleString() as string, // 创建时间
+			updatedAt: new Date().toLocaleString() as string, // 更新时间
+		},
+	])
 	return (
 		<section>
 			<button onClick={ getHistoryMessage }>getHistoryMessage</button>
 			<ol>
 				{
-					historyMessage.map((item: MessageBasic, index: number) => {
+					historyMessage &&
+					historyMessage.map((item, index) => {
 						return <li key={ index }>
 							<span>用户ID:{ item.userIdentity }</span>
 							<p>房间ID:{ item.roomIdentity }</p>
 							<p>消息:{ item.data }</p>
-							<p>创建时间:{ item.createdAt }</p>
-							<p>更新时间:{ item.updatedAt }</p>
+							<p>创建时间:{ new Date(item.createdAt).toLocaleString() }</p>
+							<p>更新时间:{ item.updatedAt && new Date(item.updatedAt).toLocaleString() }</p>
 						</li>
 					})
 				}
 			</ol>
 		</section>
 	)
-};
+}

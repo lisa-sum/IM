@@ -16,7 +16,7 @@ func HistoryMessage(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    http.StatusBadRequest,
 			"body":    result,
-			"message": "获取消息列表成功",
+			"message": "获取消息列表失败",
 		})
 		return
 	}

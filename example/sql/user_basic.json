@@ -1,0 +1,35 @@
+[
+  {
+    "_id": {"$oid": "63ee1aeff04d7b46bea71e8e"},
+    "account": "admin",
+    "avatar": "http://192.168.0.158:5000/chat/admin.svg",
+    "created_at": 1676548847870,
+    "email": "xiconzz@qq.com",
+    "gender": "male",
+    "nickname": "管理员",
+    "password": "123456",
+    "updated_at": 1676548847870
+  },
+  {
+    "_id": {"$oid": "63ee1b10f04d7b46bea71e90"},
+    "account": "student",
+    "avatar": "http://192.168.0.158:5000/chat/student.svg",
+    "created_at": 1676548880107,
+    "email": "12344@qq.com",
+    "gender": "male",
+    "nickname": "学生",
+    "password": "123456",
+    "updated_at": 1676548880107
+  },
+  {
+    "_id": {"$oid": "63ee1b4cf04d7b46bea71e92"},
+    "account": "teacher",
+    "avatar": "http://192.168.0.158:5000/chat/teacher.svg",
+    "created_at": 1676548940678,
+    "email": "abc123@qq.com",
+    "gender": "female",
+    "nickname": "教师",
+    "password": "123456",
+    "updated_at": 1676548940678
+  }
+]

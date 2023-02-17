@@ -1,0 +1,29 @@
+[
+  {
+    "avatar": "http://192.168.0.158:5000/chat/room1.svg",
+    "create_at": 1676561137998,
+    "info": "房间简介",
+    "name": "房间1",
+    "number": "1",
+    "update_at": 1676561137998,
+    "user_identity": "student"
+  },
+  {
+    "avatar": "http://192.168.0.158:5000/chat/room2.svg",
+    "create_at": 1676561152654,
+    "info": "房间简介",
+    "name": "房间2",
+    "number": "2",
+    "update_at": 1676561152654,
+    "user_identity": "teacher"
+  },
+  {
+    "avatar": "http://192.168.0.158:5000/chat/room2.svg",
+    "create_at": 1676561167219,
+    "info": "房间简介",
+    "name": "房间3",
+    "number": "3",
+    "update_at": 1676561167219,
+    "user_identity": "admin"
+  }
+]

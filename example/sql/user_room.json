@@ -1,0 +1,26 @@
+[
+  {
+    "_id": {"$oid": "63ef22a89feace498ab5712d"},
+    "create_at": 1676616360198,
+    "message_identity": "消息唯一标识",
+    "room_identity": "2",
+    "update_at": 1676616360198,
+    "user_identity": "student"
+  },
+  {
+    "_id": {"$oid": "63ef22ae9feace498ab5712f"},
+    "create_at": 1676616366025,
+    "message_identity": "消息唯一标识",
+    "room_identity": "0",
+    "update_at": 1676616366025,
+    "user_identity": "admin"
+  },
+  {
+    "_id": {"$oid": "63ef22b59feace498ab57131"},
+    "create_at": 1676616373400,
+    "message_identity": "消息唯一标识",
+    "room_identity": "1",
+    "update_at": 1676616373400,
+    "user_identity": "teacher"
+  }
+]

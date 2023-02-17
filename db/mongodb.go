@@ -22,7 +22,7 @@ func MongoDBInit() {
 	//} // 给viper读取文件的路径
 	//username := viper.GetString("mongodb.username") // 解析配置的属性
 	//password := viper.GetString("mongodb.password") // 解析配置的属性
-	//uri := viper.GetString("mongodb.uri")           // 解析配置的属性
+	//uri := viper.GetString("mongodb.url")           // 解析配置的属性
 
 	Mongo, Err = mongo.Connect(context.TODO(), options.Client().SetAuth(options.Credential{
 		Username: "root",

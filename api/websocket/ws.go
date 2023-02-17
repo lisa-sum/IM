@@ -51,7 +51,6 @@ func Ws(c *gin.Context) {
 			break
 		}
 
-		// TODO: 保存消息
 		fmt.Println("message:", message)
 		var savaMessage = schema.MessageBasic{
 			UserIdentity: message.UserIdentity,
@@ -64,18 +63,20 @@ func Ws(c *gin.Context) {
 		if err != nil {
 			log.Println("转换JSON失败:" + err.Error())
 		}
-		result, err := db.Redis.RPush(account, jsonMessage).Result()
+		result, err := db.Redis.RPush(message.UserIdentity, jsonMessage).Result()
 		if err != nil {
 			log.Println("存储消息失败:" + err.Error())
 		}
 		log.Println("result:", result)
+		log.Println("jsonMessage:", jsonMessage)
 		ws[savaMessage.UserIdentity] = conn // 根据连接绑定用户id
 		log.Println("savaMessage.UserIdentity:", savaMessage.UserIdentity)
+		log.Println("savaMessage:", savaMessage)
 		for _, cc := range ws {
 			// WriteMessage
 			// 1 消息类型: websocket.TextMessage文本
 			// 2 传输类型: []byte二进制
-			err = cc.WriteMessage(websocket.TextMessage, []byte(message.Data))
+			err = cc.WriteJSON(savaMessage)
 			if err != nil {
 				log.Println("write:", err)
 				break
