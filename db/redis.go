@@ -2,31 +2,17 @@ package db
 
 import (
 	"github.com/go-redis/redis"
-	"github.com/spf13/viper"
-	"im/utils"
 	"log"
+	"os"
 	"time"
 )
 
 var Redis *redis.Client
 
 func RedisDBInit() {
-	filePath := utils.GetFilePath("db.yaml")
-	viper.SetConfigFile(filePath)
-	readErr := viper.ReadInConfig()
-	if readErr != nil {
-		log.Fatal("读取配置失败!" + readErr.Error())
-	}
-
-	// 给viper读取文件的路径
-	password := viper.GetString("redis.password")
-	url := viper.GetString("redis.url")
-
 	Redis = redis.NewClient(&redis.Options{
-		//Addr: "192.168.0.158:6379",
-		Addr: url,
-		//Password: "msdnmm",
-		Password:    password,
+		Addr:        os.Getenv("REDIS_URL"),
+		Password:    os.Getenv("REDIS_PASSWORD"),
 		DB:          0,
 		DialTimeout: 30 * time.Second,
 	})

@@ -52,7 +52,7 @@ func UploadFileToMinio(file string, dir string) (any, error) {
 			ContentType: "application/svg",
 		})
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 		return "", err
 	}
 	fmt.Println("Successfully uploaded object: ", uploadInfo)

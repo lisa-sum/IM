@@ -18,14 +18,14 @@ func MessageList(c *gin.Context) {
 		Collection("message_basic").
 		Find(context.TODO(), bson.D{{}}, opt)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 		return
 	}
 
 	var message []schema.MessageBasic
 
 	if err = cursor.All(context.TODO(), &message); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 		return
 	}
 

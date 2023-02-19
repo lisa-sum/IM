@@ -1,24 +1,52 @@
-### 注册
 
+# curl  -X POST http://127.0.0.1/register -d'login=emma＆password=123' -F 'avatar=../example/images/avatar.svg'
+
+### 注册
 PUT {{url}}/register
 Content-Type: multipart/form-data; boundary=boundary
-#Content-Type: application/json
+Content-Type: application/json
 
 --boundary
-Content-Disposition: form-data; name="file"; filename="avatar.svg"
-
-{
- "account" : "student1",
- "password":"123456",
- "createdAt": 1676548940678,
- "updatedAt": 1676548940678,
- "email":"test@example.com",
- "nickname":"st",
- "gender":"female",
-}
+Content-Disposition: form-data; name="avatar"; filename="avatar.svg"
 
 // 发送文件
 < ../example/images/avatar.svg
+--boundary
+Content-Disposition: form-data; name="account";
+
+student3
+
+--boundary
+Content-Disposition: form-data; name="password";
+
+123456
+
+--boundary
+Content-Disposition: form-data; name="createdAt";
+
+1676548940678
+
+--boundary
+Content-Disposition: form-data; name="updatedAt";
+
+1676548940678
+
+--boundary
+Content-Disposition: form-data; name="email";
+
+test@example.com
+
+--boundary
+Content-Disposition: form-data; name="nickname";
+
+st
+
+--boundary
+Content-Disposition: form-data; name="gender";
+
+female
+
+--boundary--
 
 > {%
 client.test("Request executed successfully", function() {
@@ -73,10 +101,10 @@ Content-Type: application/json
 ### 更新用户头像
 PUT {{url}}/upload
 Content-Type: multipart/form-data; boundary=boundary
-#Content-Type: application/json
 
 --boundary
 Content-Disposition: form-data; name="file"; filename="avatar.svg"
 
 // 发送文件
 < ../example/images/avatar.svg
+--boundary--

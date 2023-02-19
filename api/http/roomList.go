@@ -3,7 +3,6 @@ package http
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -14,8 +13,7 @@ import (
 	"strconv"
 )
 
-func RoomList(c *gin.Context) {
-	query := c.Query("number")
+func RoomList(query string) (any, error) {
 	dbBasic := db.Mongo.Database("im").Collection(schema.RoomBasic{}.Collection())
 	if query == "all" { // 查询全部群聊
 		// 查询全部
@@ -29,21 +27,17 @@ func RoomList(c *gin.Context) {
 		cursor, err := dbBasic.Find(context.TODO(), filter, opts)
 		var roomList = make([]map[string]any, 0)
 		if err = cursor.All(context.TODO(), &roomList); err != nil {
-			c.AbortWithStatusJSON(http.StatusOK, gin.H{
-				"body":    nil,
-				"code":    http.StatusNotAcceptable,
-				"message": "请求所有群聊失败",
-			})
-			log.Println("请求所有群聊失败" + err.Error())
-			return
+			return schema.Status{
+				Body:    nil,
+				Code:    http.StatusNotAcceptable,
+				Message: "请求所有群聊失败",
+			}, nil
 		}
-		log.Println("roomList:", roomList)
-		c.JSON(http.StatusOK, gin.H{
-			"body":    roomList,
-			"code":    http.StatusOK,
-			"message": "请求所有群聊成功",
-		})
-		return
+		return schema.Status{
+			Code:    http.StatusOK,
+			Message: "请求所有群聊成功",
+			Body:    roomList,
+		}, nil
 	} else if _, err := strconv.Atoi(query); err != nil { // 如果转为int类型成功,那么为群号直接查询
 		// 根据传入的number查询
 		var roomInfo schema.RoomBasic
@@ -52,27 +46,25 @@ func RoomList(c *gin.Context) {
 		log.Println("roomInfo:", roomInfo)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				c.AbortWithStatusJSON(http.StatusOK, gin.H{
-					"body":    nil,
-					"code":    http.StatusNotAcceptable,
-					"message": "查询的群号无结果",
-				})
-				return
+				return schema.Status{
+					Body:    nil,
+					Code:    http.StatusNotAcceptable,
+					Message: "查询的群号无结果",
+				}, nil
 			}
 			log.Println(err)
-			return
+			return nil, err
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"body":    roomInfo,
-			"code":    http.StatusOK,
-			"message": fmt.Sprintf("获取number为%v的结果成功", query),
-		})
-		return
+
+		return schema.Status{
+			Body:    roomInfo,
+			Code:    http.StatusOK,
+			Message: fmt.Sprintf("获取number为%v的结果成功", query),
+		}, nil
 	}
-	c.AbortWithStatusJSON(http.StatusOK, gin.H{
-		"body":    nil,
-		"code":    http.StatusBadRequest,
-		"message": "参数异常, 请传递正确的参数",
-	})
-	log.Println("异常/或未携带值的请求参数")
+	return schema.Status{
+		Body:    "roomInfo",
+		Code:    http.StatusOK,
+		Message: fmt.Sprintf("获取number为%v的结果成功", query),
+	}, nil
 }

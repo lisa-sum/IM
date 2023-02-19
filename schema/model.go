@@ -1,5 +1,15 @@
 package schema
 
+type UserFormBasic struct {
+	Account   string `bson:"account" form:"account"`
+	Password  string `bson:"password" form:"password"`
+	Email     string `bson:"email" form:"email"`
+	Nickname  string `bson:"nickname" form:"nickname"`
+	Gender    string `bson:"gender" form:"gender"`
+	CreatedAt int    `bson:"created_at" form:"createdAt"`
+	UpdatedAt int    `bson:"updated_at" form:"updatedAt"`
+}
+
 type UserBasic struct {
 	Account   string `json:"account" bson:"account"`
 	Password  string `json:"password" bson:"password"`

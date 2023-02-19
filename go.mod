@@ -1,4 +1,4 @@
-module 02/11/im
+module im
 
 go 1.20
 
@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gorilla/websocket v1.5.0
+	github.com/joho/godotenv v1.5.1
 	github.com/minio/minio-go/v7 v7.0.49
 	github.com/spf13/viper v1.15.0
 	go.mongodb.org/mongo-driver v1.11.2

@@ -5,6 +5,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"os"
 )
 
 var (
@@ -13,22 +14,10 @@ var (
 )
 
 func MongoDBInit() {
-	//filePath := utils.GetFilePath("db.yaml")
-	//viper.SetConfigFile(filePath)
-	//readErr := viper.ReadInConfig()
-	//if readErr != nil {
-	//	log.Fatal("读取配置失败!" + readErr.Error())
-	//}
-	//
-	//// 给viper读取文件的路径
-	//username := viper.GetString("mongodb.username")
-	//password := viper.GetString("mongodb.password")
-	//url := viper.GetString("mongodb.url")
-
 	Mongo, Err = mongo.Connect(context.Background(), options.Client().SetAuth(options.Credential{
-		Username: "root",
-		Password: "msdnmm",
-	}).ApplyURI("mongodb://192.168.0.152:27017"))
+		Username: os.Getenv("MONGODB_USERNAME"),
+		Password: os.Getenv("MONGODB_PASSWORD"),
+	}).ApplyURI(os.Getenv("MONGODB_URL")))
 	if Err != nil {
 		log.Fatal("运行Mongodb服务失败!" + Err.Error())
 	}

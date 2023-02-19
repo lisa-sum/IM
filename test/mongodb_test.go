@@ -3,7 +3,7 @@ package test
 import (
 	"context"
 	"fmt"
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -12,23 +12,15 @@ import (
 )
 
 func TestMongoDB(t *testing.T) {
-	// 读取mongodb路径
-	filePath := GetFilePath("db.yaml")
-	fmt.Println("filePath:", filePath)
-	viper.SetConfigFile(filePath)
-	readErr := viper.ReadInConfig()
-	if readErr != nil {
-		log.Fatal("读取配置失败!" + readErr.Error())
+	ENV, err := godotenv.Read()
+	if err != nil {
+		log.Fatal("获取环境变量失败:", err.Error())
 	}
 
-	username := viper.GetString("mongodb.username") // 解析配置的属性
-	password := viper.GetString("mongodb.password") // 解析配置的属性
-	uri := viper.GetString("mongodb.url")           // 解析配置的属性
-
 	client, err := mongo.Connect(context.TODO(), options.Client().SetAuth(options.Credential{
-		Username: username,
-		Password: password,
-	}).ApplyURI(uri))
+		Username: ENV["MONGODB_USERNAME"],
+		Password: ENV["MONGODB_PASSWORD"],
+	}).ApplyURI(ENV["MONGODB_URL"]))
 	if err != nil {
 		t.Fatal(err)
 	}

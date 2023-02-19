@@ -12,11 +12,11 @@ import (
 func Server() {
 	server := gin.Default()
 	server.Use(utils.Cors())
-	server.PUT("/register", api.Register)
+	server.PUT("/register", service.Register)
 	server.POST("/login", service.Login)
 	server.PUT("/upload", service.Upload)
 	server.GET("/chat", ws.Ws)
-	server.GET("/roomList", api.RoomList)
+	server.GET("/roomList", service.RoomList)
 	server.GET("/historyMessage", api.HistoryMessage)
 	err := server.Run(":4000")
 	if err != nil {

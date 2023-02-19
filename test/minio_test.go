@@ -1,34 +1,24 @@
 package test
 
 import (
+	"github.com/joho/godotenv"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/spf13/viper"
+	"log"
 	"testing"
 )
 
 var MinioClient *minio.Client
 
 func TestMinioNewClient(t *testing.T) {
-	// 读取minio配置文件
-	configure := GetFilePath("minio.yaml")
-	t.Log(configure)
-	viper.SetConfigFile(configure)
-	readErr := viper.ReadInConfig()
-	if readErr != nil {
-		t.Fatal("读取配置失败!" + readErr.Error())
-		return
+	ENV, err := godotenv.Read()
+	if err != nil {
+		log.Fatal("获取环境变量失败:", err.Error())
 	}
 
-	// 读取minio配置文件字段
-	url := viper.GetString("minio.url")
-	accessKey := viper.GetString("minio.accessKey")
-	secretKey := viper.GetString("minio.secretKey")
-
 	// 初使化minio client对象。
-	var err error
-	MinioClient, err = minio.New(url, &minio.Options{
-		Creds:  credentials.NewStaticV4(accessKey, secretKey, ""),
+	MinioClient, err = minio.New(ENV["MINIO_URL"], &minio.Options{
+		Creds:  credentials.NewStaticV4(ENV["MINIO_ACCESS_KEY"], ENV["MINIO_SECRET_KEY"], ""),
 		Secure: false,
 	})
 	if err != nil {
