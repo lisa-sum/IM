@@ -12,7 +12,6 @@ export default function Room () {
 		{ text: '简介' },
 	])
 
-	console.log('messageList', messageList)
 	const { roomNumber } = useAppSelector((state: RootState) => state.room.value)
 	const { account, nickname, avatar } = useAppSelector((state: RootState) => state.profile.value)
 	const [inputMsg, setInputMsg] = useState<string>('')
@@ -24,19 +23,16 @@ export default function Room () {
 		updatedAt: new Date().getTime(),
 	})
 
-	// 发送消息
-	const sendMessage = (event: string) => {
-		if (event === 'Enter'){
-			setMsg((state: MessageBasic) => {
-				return {
-					...state,
-					userIdentity: account,
-					roomIdentity: roomNumber,
-					data: inputMsg,
-					updatedAt: new Date().getTime(),
-				}
-			})
-		}
+	const updateMessage = (message: string) => {
+		setMsg((state: MessageBasic) => {
+			return {
+				...state,
+				userIdentity: account,
+				roomIdentity: roomNumber,
+				data: message,
+				updatedAt: new Date().getTime(),
+			}
+		})
 	}
 	return (
 		<>
@@ -153,8 +149,7 @@ export default function Room () {
 					<Input
 						fullWidth
 						id='inputMessage'
-						onKeyDown={ (event) => sendMessage(event.key) }
-						onChange={ (event) => setInputMsg(event.target.value) }
+						onChange={ (event) => updateMessage(event.target.value) }
 					/>
 				</InputLabel>
 				<SendMessage msg={ msg } />

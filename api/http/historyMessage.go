@@ -9,7 +9,6 @@ import (
 
 func HistoryMessage(c *gin.Context) {
 	account := c.Query("account")
-
 	result, err := db.Redis.LRange(account, 0, -1).Result()
 	if err != nil {
 		log.Println("获取消息列表失败" + err.Error())

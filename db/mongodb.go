@@ -13,18 +13,19 @@ var (
 )
 
 func MongoDBInit() {
-	//filePath := utils.GetPath("db.yaml", "")
-	//fmt.Println("filePath:", filePath)
+	//filePath := utils.GetFilePath("db.yaml")
 	//viper.SetConfigFile(filePath)
 	//readErr := viper.ReadInConfig()
 	//if readErr != nil {
 	//	log.Fatal("读取配置失败!" + readErr.Error())
-	//} // 给viper读取文件的路径
-	//username := viper.GetString("mongodb.username") // 解析配置的属性
-	//password := viper.GetString("mongodb.password") // 解析配置的属性
-	//uri := viper.GetString("mongodb.url")           // 解析配置的属性
+	//}
+	//
+	//// 给viper读取文件的路径
+	//username := viper.GetString("mongodb.username")
+	//password := viper.GetString("mongodb.password")
+	//url := viper.GetString("mongodb.url")
 
-	Mongo, Err = mongo.Connect(context.TODO(), options.Client().SetAuth(options.Credential{
+	Mongo, Err = mongo.Connect(context.Background(), options.Client().SetAuth(options.Credential{
 		Username: "root",
 		Password: "msdnmm",
 	}).ApplyURI("mongodb://192.168.0.152:27017"))

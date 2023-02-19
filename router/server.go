@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	api "im/api/http"
 	ws "im/api/websocket"
+	"im/service"
 	"im/utils"
 	"log"
 )
@@ -11,9 +12,9 @@ import (
 func Server() {
 	server := gin.Default()
 	server.Use(utils.Cors())
-	//server.GET("/historyMessage", api.MessageList)
 	server.PUT("/register", api.Register)
-	server.POST("/login", api.Login)
+	server.POST("/login", service.Login)
+	server.PUT("/upload", service.Upload)
 	server.GET("/chat", ws.Ws)
 	server.GET("/roomList", api.RoomList)
 	server.GET("/historyMessage", api.HistoryMessage)

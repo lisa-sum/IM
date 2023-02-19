@@ -16,54 +16,50 @@ const routes = [
 ]
 
 function App () {
-
 	return (
-		<article>
-			<BrowserRouter>
-				<List
-					sx={ {
-						width: '60vw',
-						display: 'flex',
-						justifyContent: 'space-between',
-					} }
-				>
-					{
-						routes.map((route) => (
-							<Link
-								key={ route.label }
-								to={ route.path }
-								component={ RouterLink }
+		<BrowserRouter>
+			<List
+				sx={ {
+					width: '60vw',
+					display: 'flex',
+					justifyContent: 'space-between',
+				} }
+			>
+				{
+					routes.map((route) => (
+						<Link
+							key={ route.label }
+							to={ route.path }
+							component={ RouterLink }
+							sx={ {
+								display: 'block',
+								textDecoration: 'none',
+							} }
+						>
+							<ListItem
 								sx={ {
-									display: 'block',
-									textDecoration: 'none',
+									width: '15vw',
+									height: '49px',
+									lineHeight: '49px',
+									textAlign: 'center',
 								} }
 							>
-								<ListItem
-									sx={ {
-										width: '15vw',
-										height: '49px',
-										lineHeight: '49px',
-										textAlign: 'center',
-									} }
-								>
-									{ route.label }
-								</ListItem>
-							</Link>
-						))
-					}
-				</List>
+								{ route.label }
+							</ListItem>
+						</Link>
+					))
+				}
+			</List>
 
-				<Routes>
-					{
-						routes.map((route) => (
-							<Route key={ route.label } path={ route.path } element={ route.element }>{ route.label }</Route>
-						))
-					}
-				</Routes>
-
-			</BrowserRouter>
-		</article>
-
+			{/* 路由组 */}
+			<Routes>
+				{
+					routes.map((route) => (
+						<Route key={ route.label } path={ route.path } element={ route.element }>{ route.label }</Route>
+					))
+				}
+			</Routes>
+		</BrowserRouter>
 	)
 }
 

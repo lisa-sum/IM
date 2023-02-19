@@ -2,7 +2,6 @@ package websocket
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"im/db"
@@ -38,11 +37,11 @@ func Ws(c *gin.Context) {
 		return
 	}
 	// 升级为WS协议 e
+
 	for {
 		// 创建消息JSON结构体, 保存消息与额外的信息
 		message := new(schema.MessageBasic)
 
-		fmt.Println("ws:", ws)
 		// ReadJSON
 		// message: 需要读取的消息对象(一条消息一般包含多个属性用于其他用途)
 		err := conn.ReadJSON(message)
@@ -51,36 +50,48 @@ func Ws(c *gin.Context) {
 			break
 		}
 
-		fmt.Println("message:", message)
-		var savaMessage = schema.MessageBasic{
+		// 消息结构体
+		msg := schema.MessageBasic{
 			UserIdentity: message.UserIdentity,
 			RoomIdentity: message.RoomIdentity,
 			Data:         message.Data,
 			CreatedAt:    message.CreatedAt,
 			UpdatedAt:    message.UpdatedAt,
 		}
-		jsonMessage, err := json.Marshal(&savaMessage)
-		if err != nil {
-			log.Println("转换JSON失败:" + err.Error())
-		}
-		result, err := db.Redis.RPush(message.UserIdentity, jsonMessage).Result()
-		if err != nil {
-			log.Println("存储消息失败:" + err.Error())
-		}
-		log.Println("result:", result)
-		log.Println("jsonMessage:", jsonMessage)
-		ws[savaMessage.UserIdentity] = conn // 根据连接绑定用户id
-		log.Println("savaMessage.UserIdentity:", savaMessage.UserIdentity)
-		log.Println("savaMessage:", savaMessage)
+
+		// 存储消息
+		go saveMessage(c, msg)
+
+		// 根据连接绑定用户id
+		ws[msg.UserIdentity] = conn
 		for _, cc := range ws {
 			// WriteMessage
 			// 1 消息类型: websocket.TextMessage文本
 			// 2 传输类型: []byte二进制
-			err = cc.WriteJSON(savaMessage)
+			err = cc.WriteJSON(msg)
 			if err != nil {
 				log.Println("write:", err)
 				break
 			}
 		}
+	}
+}
+
+func saveMessage(c *gin.Context, msg schema.MessageBasic) {
+
+	// 转换JSON s
+	jsonMessage, err := json.Marshal(&msg)
+	if err != nil {
+		log.Println("转换JSON失败:" + err.Error())
+	}
+
+	// 存储消息, 存储异常则返回消息给客户端,继续执行
+	if err := db.Redis.RPush(msg.UserIdentity, jsonMessage).Err(); err != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+			"body":    nil,
+			"message": "存储消息失败",
+			"code":    http.StatusBadRequest,
+		})
+		log.Println("存储消息失败:" + err.Error())
 	}
 }

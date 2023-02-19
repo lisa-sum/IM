@@ -20,8 +20,6 @@ export const profileSlice = createSlice({
 	initialState,
 	reducers: {
 		updateMessage: (state, { payload }: PayloadAction<any>) => {
-			console.log('payload', payload)
-//			state.value.messageList.push(payload)
 			state.value.messageList = [...state.value.messageList, JSON.parse(payload)]
 		},
 	},

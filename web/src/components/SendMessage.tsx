@@ -6,13 +6,12 @@ import { updateMessage } from '@/features/message'
 
 export default function SendMessage ({ msg }: { msg: MessageBasic }) {
 	const dispatch = useAppDispatch()
-	const sendMessage = (msg: string) => {
+	const sendMessage = (msg: MessageBasic) => {
 		const ws: WebSocket = new WebSocket('ws://127.0.0.1:4000/chat')
 		ws.onopen = () => {
-			ws.send(msg)
+			ws.send(messageBasic(msg))
 		}
 		ws.onmessage = (event: MessageEvent<any>) => {
-			console.log('event.data', event.data)
 			dispatch(updateMessage(event.data))
 		}
 		ws.onerror = () => {
@@ -33,7 +32,7 @@ export default function SendMessage ({ msg }: { msg: MessageBasic }) {
 			<Button
 				variant='contained'
 				endIcon={ <SendIcon /> }
-				onClick={ () => sendMessage(messageBasic(msg)) }
+				onClick={ () => sendMessage(msg) }
 				sx={ {
 					color: '#fff',
 					height: '40px',
@@ -44,4 +43,4 @@ export default function SendMessage ({ msg }: { msg: MessageBasic }) {
 			</Button>
 		</Box>
 	)
-};
+}
