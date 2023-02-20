@@ -63,8 +63,8 @@ func RoomList(query string) (any, error) {
 		}, nil
 	}
 	return schema.Status{
-		Body:    "roomInfo",
-		Code:    http.StatusOK,
-		Message: fmt.Sprintf("获取number为%v的结果成功", query),
+		Body:    nil,
+		Code:    http.StatusNotFound,
+		Message: "异常/或未携带值的请求参数",
 	}, nil
 }

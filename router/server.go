@@ -3,7 +3,6 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	api "im/api/http"
-	ws "im/api/websocket"
 	"im/service"
 	"im/utils"
 	"log"
@@ -15,7 +14,7 @@ func Server() {
 	server.PUT("/register", service.Register)
 	server.POST("/login", service.Login)
 	server.PUT("/upload", service.Upload)
-	server.GET("/chat", ws.Ws)
+	server.GET("/chat", service.IM)
 	server.GET("/roomList", service.RoomList)
 	server.GET("/historyMessage", api.HistoryMessage)
 	err := server.Run(":4000")

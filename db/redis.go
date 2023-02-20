@@ -16,15 +16,8 @@ func RedisDBInit() {
 		DB:          0,
 		DialTimeout: 30 * time.Second,
 	})
-	pong, err := Redis.Ping().Result()
+	_, err := Redis.Ping().Result()
 	if err != nil {
 		log.Fatal("Ping Redis Error:" + err.Error())
 	}
-	defer func(client *redis.Client) {
-		err := client.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(Redis)
-	log.Println("Successfully connected redis and " + pong)
 }

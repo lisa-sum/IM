@@ -16,7 +16,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	db.RedisDBInit()
+
 	db.MongoDBInit()
 	router.Server() // 运行web服务
 	log.Fatal(http.ListenAndServe(*addr, nil))
